@@ -2,7 +2,13 @@
 
 TOTAL = 2020
 
-def two(hash)
+def two(numbers)
+  hash = {}
+
+  numbers.each do |num|
+    hash[num.to_i] = 1
+  end
+
   hash.each do |k,v|
     next unless hash.key?(TOTAL - k)
 
@@ -19,13 +25,7 @@ end
 def main
   numbers = File.readlines("../input.txt").map(&:to_i).sort
 
-  hash = {}
-
-  numbers.each do |num|
-    hash[num.to_i] = 1
-  end
-
-  puts two(hash)
+  puts two(numbers)
   puts three(numbers)
 end
 
