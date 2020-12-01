@@ -11,8 +11,7 @@ def two(hash)
 end
 
 def three(numbers)
-  combo = numbers.combination(3).to_a
-  combo.each do |group|
+  numbers.combination(3).each do |group|
     return group.inject(1, :*) if group.sum == TOTAL
   end
 end
