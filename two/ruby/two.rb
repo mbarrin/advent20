@@ -26,11 +26,7 @@ def two(contents)
 
     password.strip!
 
-    next unless password.include?(letter)
-
-    next if password[first-1] == letter && password[second-1] == letter
-
-    valid += 1 if password[first-1] == letter || password[second-1] == letter
+    valid += 1 if (password[first-1] == letter) ^ (password[second-1] == letter)
   end
 
   valid
