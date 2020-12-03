@@ -21,11 +21,14 @@ end
 def main
   map = File.readlines("../input.txt").map(&:strip).map(&:chars)
 
+  puts count_trees(map, 3, 1)
+
   paths = [[1,1], [3,1], [5,1], [7,1], [1,2]]
   total = 1
   paths.map do |path|
     total *= count_trees(map, path[0], path[1])
   end
+
   puts total
 end
 
