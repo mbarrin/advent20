@@ -1,25 +1,30 @@
 #!/usr/bin/env ruby
 require 'pry'
 
-#class Identification
-#
-#  attr_reader :byr, :iyr, :eyr, :hgt, :hcl, :ecl, :pid, :cid
-#
-#  def initialize(data)
-#    @byr = data["byr"]
-#    @iyr = data["iyr"]
-#    @eyr = data["eyr"]
-#    @hgt = data["hgt"]
-#    @hcl = data["hcl"]
-#    @ecl = data["ecl"]
-#    @pid = data["pid"]
-#    @cid = data["cid"]
-#  end
-#
-#  def valid?
-#    binding.pry
-#  end
-#end
+class Identification
+
+  attr_reader :byr, :iyr, :eyr, :hgt, :hcl, :ecl, :pid, :cid, :total
+
+  def initialize(data)
+    @byr = data["byr"]
+    @iyr = data["iyr"]
+    @eyr = data["eyr"]
+    @hgt = data["hgt"]
+    @hcl = data["hcl"]
+    @ecl = data["ecl"]
+    @pid = data["pid"]
+    @cid = data["cid"]
+    @total = data.length
+  end
+
+  def valid?
+    return true if total == 8
+
+    return true if total == 7 && cid.nil?
+
+    false
+  end
+end
 
 file = File.open("../input.txt")
 
@@ -44,6 +49,7 @@ end
 
 ids = ids.map { |x| x.join(" ") }
 
+
 valid = 0
 
 ids.each do |id|
@@ -55,13 +61,9 @@ ids.each do |id|
 
   next if data.keys.length < 7
 
-  if data.keys.length == 7
-    valid += 1 unless data.key?("cid")
-  end
+  identification = Identification.new(data)
 
-  if data.keys.length == 8
-    valid += 1
-  end
+  valid += 1 if identification.valid?
 end
 
 puts valid
