@@ -82,29 +82,7 @@ class Identification
   end
 end
 
-file = File.open("../input.txt")
-
-ids = []
-tmp = []
-
-while (line = file.gets) do
-  if file.eof?
-    tmp << line.chomp!
-    ids << tmp
-    break
-  end
-
-  if line == "\n"
-    ids << tmp
-    tmp = []
-    next
-  end
-
-  tmp << line.chomp!
-end
-
-ids = ids.map { |x| x.join(" ") }
-
+ids = File.open("../input.txt").read.chomp.split("\n\n").each { |id| id.gsub!("\n", " ") }
 
 old_valid = []
 new_valid = []
