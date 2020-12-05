@@ -48,7 +48,7 @@ class Identification
   end
 
   def valid_pid?
-    pid.match?(/\d{9}/)
+    pid.match?(/^\d{9}$/)
   end
 
   def all_fields?
@@ -82,32 +82,10 @@ class Identification
   end
 end
 
-file = File.open("../input.txt")
+ids = File.open("../input.txt").read.chomp.split("\n\n").each { |id| id.gsub!("\n", " ") }
 
-ids = []
-tmp = []
-
-while (line = file.gets) do
-  if file.eof?
-    tmp << line.chomp!
-    ids << tmp
-    break
-  end
-
-  if line == "\n"
-    ids << tmp
-    tmp = []
-    next
-  end
-
-  tmp << line.chomp!
-end
-
-ids = ids.map { |x| x.join(" ") }
-
-
-old_valid = 0
-new_valid = 0
+old_valid = []
+new_valid = []
 
 ids.each do |id|
   data = {}
@@ -120,9 +98,9 @@ ids.each do |id|
 
   identification = Identification.new(data)
 
-  old_valid += 1 if identification.old_valid?
-  new_valid += 1 if identification.new_valid?
+  old_valid << identification if identification.old_valid?
+  new_valid << identification if identification.new_valid?
 end
 
-puts old_valid
-puts new_valid
+puts old_valid.count
+puts new_valid.count
