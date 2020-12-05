@@ -2,17 +2,11 @@
 #
 lines = File.readlines("../input.txt", chomp: true)
 
-ids = []
-lines.each do |line|
-  instructions = line.chars
+ids = lines.map do |line|
+  rmin, rmax = 0, 127
+  cmin, cmax = 0, 7
 
-  rmin = 0
-  rmax = 127
-
-  cmin = 0
-  cmax = 7
-
-  instructions.each_with_index do |instruction, i|
+  line.chars.each do |instruction|
     if instruction == "F" # low
       rmax = rmax - ((rmax - rmin) / 2) - 1
     elsif instruction == "B" # high
@@ -24,7 +18,7 @@ lines.each do |line|
     end
   end
 
-  ids << (rmin * 8) + cmin
+  (rmin * 8) + cmin
 end
 
 ids.sort!
