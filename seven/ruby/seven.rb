@@ -4,23 +4,29 @@ def can_hold(bags, type, end_bags)
   end_bags << type unless type == "shiny gold"
 
   bags.each do |k,v|
-    v.each do |x|
-      next if x.nil?
-
-      puts "bag: #{k} count: #{v.map { |i| i.values }.inject(:+).inject(:+)}"
-
-      can_hold(bags, k, end_bags) if x.key?(type)
-    end
+    next if v.nil?
+    can_hold(bags, k, end_bags) if v.keys.include?(type)
   end
 
   end_bags
 end
 
+def count_bags(bags, type, total)
+  return 0 if bags[type].nil?
+
+  bags[type].each do |bag, count|
+    tmp = 0
+    total += count * (count_bags(bags, bag, tmp) + 1)
+  end
+
+  total
+end
+
 def main
-  @total = 0
+  total = 0
   end_bags = []
 
-  lines = File.readlines("../test.txt", chomp: true)
+  lines = File.readlines("../input.txt", chomp: true)
 
   bag = "shiny gold"
 
@@ -29,18 +35,19 @@ def main
   lines.each do |line|
     key, values = line.split(" bags contain ")
 
-    root[key] = values.split(",").map do |val|
+    values.split(",").each do |val|
+      root[key] = {} unless root.key?(key)
       match =  val.match(/(\d+)\s(\w+\s\w+)/)
       if match.nil?
-        nil
+        root[key] = nil
       else
-        { match[2] => match[1].to_i }
+        root[key][match[2]] = match[1].to_i
       end
     end
-
   end
 
   puts can_hold(root, bag, end_bags).uniq.size
+  puts count_bags(root, bag, total)
 end
 
 main
