@@ -6,9 +6,10 @@ def can_hold(bags, type, end_bags)
   bags.each do |k,v|
     v.each do |x|
       next if x.nil?
-      if x.key?(type)
-        can_hold(bags, k, end_bags)
-      end
+
+      puts "bag: #{k} count: #{v.map { |i| i.values }.inject(:+).inject(:+)}"
+
+      can_hold(bags, k, end_bags) if x.key?(type)
     end
   end
 
@@ -16,9 +17,10 @@ def can_hold(bags, type, end_bags)
 end
 
 def main
+  @total = 0
   end_bags = []
 
-  lines = File.readlines("../input.txt", chomp: true)
+  lines = File.readlines("../test.txt", chomp: true)
 
   bag = "shiny gold"
 
@@ -32,13 +34,11 @@ def main
       if match.nil?
         nil
       else
-        { match[2] => match[1] }
+        { match[2] => match[1].to_i }
       end
     end
 
   end
-
-  puts root
 
   puts can_hold(root, bag, end_bags).uniq.size
 end
