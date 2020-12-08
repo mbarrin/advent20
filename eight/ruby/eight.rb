@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'pry'
-
 def run_code(lines)
   accumulator = 0
   visited = []
@@ -47,10 +45,10 @@ def main
     new_lines = lines.dup
 
     new_lines.each_with_index do |line, index|
-      new_lines[index][0] = switch(new_lines[index][0]) if line.first == "nop" || line.first == "jmp"
+      new_lines[index][0] = switch(new_lines[index][0])
       results = run_code(new_lines)
       break if results[:success]
-      new_lines[index][0] = switch(new_lines[index][0]) unless results[:success]
+      new_lines[index][0] = switch(new_lines[index][0])
     end
   end
   puts results[:accumulator]
