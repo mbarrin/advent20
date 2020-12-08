@@ -14,9 +14,8 @@ end
 def count_bags(bags, type)
   return 0 if bags[type].nil?
 
-  total = 0
-  bags[type].each do |bag, count|
-    total += count * (count_bags(bags, bag) + 1)
+  total = bags[type].sum do |bag, count|
+    count * (count_bags(bags, bag) + 1)
   end
 
   total
