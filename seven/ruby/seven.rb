@@ -11,19 +11,18 @@ def can_hold(bags, type, end_bags)
   end_bags
 end
 
-def count_bags(bags, type, total)
+def count_bags(bags, type)
   return 0 if bags[type].nil?
 
+  total = 0
   bags[type].each do |bag, count|
-    tmp = 0
-    total += count * (count_bags(bags, bag, tmp) + 1)
+    total += count * (count_bags(bags, bag) + 1)
   end
 
   total
 end
 
 def main
-  total = 0
   end_bags = []
 
   lines = File.readlines("../input.txt", chomp: true)
@@ -47,7 +46,7 @@ def main
   end
 
   puts can_hold(root, bag, end_bags).uniq.size
-  puts count_bags(root, bag, total)
+  puts count_bags(root, bag)
 end
 
 main
