@@ -42,13 +42,11 @@ def main
   puts results[:accumulator]
 
   until results[:success]
-    new_lines = lines.dup
-
-    new_lines.each_with_index do |line, index|
-      new_lines[index][0] = switch(new_lines[index][0])
-      results = run_code(new_lines)
+    lines.each_with_index do |line, index|
+      lines[index][0] = switch(lines[index][0])
+      results = run_code(lines)
       break if results[:success]
-      new_lines[index][0] = switch(new_lines[index][0])
+      lines[index][0] = switch(lines[index][0])
     end
   end
   puts results[:accumulator]
